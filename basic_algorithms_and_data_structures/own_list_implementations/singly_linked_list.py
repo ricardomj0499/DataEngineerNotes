@@ -36,6 +36,9 @@ class SinglyLinkedList:
         """del from the end"""
         pass
 
+    def my_len(self):
+        pass
+
     def __iter__(self):
         """
         Defines an iterable for the linked list using a generator.
