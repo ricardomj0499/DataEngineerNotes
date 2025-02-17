@@ -80,9 +80,9 @@ for row in table_content:
     row_data = []
     cols = row.find_all("td")
     row_data.append(cols[0].text)
-    row_data.append(cols[0].text)
-    row_data.append(cols[0].text)
-    row_data.append(cols[0].text)
+    row_data.append(cols[1].text)
+    row_data.append(cols[2].text)
+    row_data.append(cols[3].text)
     df.append(row_data)
 
 import pandas as pd
