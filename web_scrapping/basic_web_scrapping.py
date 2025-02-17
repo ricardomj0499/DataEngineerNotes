@@ -161,3 +161,10 @@ print(df)
 df.to_csv("spark_application_properties_regex.csv", index=False)
 
 """
+
+# TODO:
+# 1. Add pagination handling to scrape multiple pages.
+# 2. Work with dynamic pages using Selenium or Scrapy.
+# 3. Handle JavaScript-rendered content.
+# 4. Implement error handling and retries for robust scraping.
+# 5. Extract additional data elements as needed.
