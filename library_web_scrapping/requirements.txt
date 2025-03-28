@@ -1,2 +1,4 @@
 jupyterlab==4.3.5
 Scrapy==2.12
+beautifulsoup4==4.13.3
+duckdb==1.2.1
