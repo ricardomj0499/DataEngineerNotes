@@ -7,19 +7,18 @@ from scrapy.http.response.text import TextResponse
 from bs4 import BeautifulSoup
 
 
-class LibrarySpider(scrapy.Spider):
+class BookStoreSpider(scrapy.Spider):
     """
     This spider is used to scrap the libreria internacional website
     """
 
-    name = "LibrarySpider"
+    name = "BookStoreSpider"
 
     def start_requests(
         self,
     ):
         # Could only set a list with the urls to scrap with list name = start_urls
-        # Se puede ir manualmente a la siguiente pagina de la busqueda
-        # Con el siguiente query por ejemplo: ?p=2&q=brandon+sanderson",
+
         urls = [
             "https://www.libreriainternacional.com/catalogsearch/result/?q=BRANDON+SANDERSON",
         ]
@@ -40,6 +39,8 @@ class LibrarySpider(scrapy.Spider):
             yield scrapy.Request(book_url, self.parse_page)
 
         # Pagination handling: Find the 'Next' button and follow the link
+        # We could use the next page link to scrap the next page
+        # if the next page exists for example: ?p=2&q=brandon+sanderson"
         next_page = response.css(
             "a.action.next::attr(href)"
         ).get()  # Adjust selector if necessary
@@ -48,7 +49,7 @@ class LibrarySpider(scrapy.Spider):
 
     def parse_page(self, response: TextResponse):
         """
-        scrap every book that it finds"
+        scrap every book that it finds using  beautifulsoup
         """
 
         page = BeautifulSoup(response.text, "html.parser")
