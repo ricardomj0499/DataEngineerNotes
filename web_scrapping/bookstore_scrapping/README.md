@@ -10,7 +10,7 @@ This project is a web scraping tool built with Scrapy to extract book data from 
 - Search for books by a specific author (e.g., Brandon Sanderson). (TODO)
 - Traverse all pages recursively to collect book data. (TODO)
 - Store extracted data in **Parquet** format for efficient storage and analysis. (TODO)
-- Automate periodic data collection to track historical changes. (TODO)
+- Automate periodic data collection to track historical changes.
 - Perform basic data analysis using **DuckDB**.
 - Run the scraper inside a **Jupyter Notebook**.
 - Add datetime to data csv (Todo)
