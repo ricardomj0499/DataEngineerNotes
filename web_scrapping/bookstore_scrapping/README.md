@@ -13,7 +13,7 @@ This project is a web scraping tool built with Scrapy to extract book data from 
 - Automate periodic data collection to track historical changes.
 - Perform basic data analysis using **DuckDB**.
 - Run the scraper inside a **Jupyter Notebook**.
-- Add datetime to data csv (Todo)
+- Add datetime to data parquet (Todo)
 
 ## Installation
 
@@ -51,8 +51,6 @@ The scraped data is saved in various formats:
 - [ ] Implement search functionality for different authors.
 - [ ] Enhance pagination handling to ensure all books are scraped.
 - [ ] Store data in Parquet format.
-- [ ] Automate periodic runs using a scheduler.
-- [ ] Perform basic trend analysis on collected data.
 
 ## Useful Links & Documentation
 
