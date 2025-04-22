@@ -1,6 +1,6 @@
 # 🐘 Apache Hadoop Base Image - Standalone Mode
 
-Esta imagen Docker instala Apache Hadoop en modo **Standalone** (no distribuido), ideal como punto de partida para configuraciones más avanzadas (pseudo o full distributed). Usa `ubuntu:24.04` como base y Hadoop 3.4.1 por defecto.
+Esta imagen Docker instala Apache Hadoop en modo **Standalone** (no distribuido, todo corre en el sistema de archivos local=file:///, no hay namenode ni datanode ni RM, corre como un solo proceso de Java), ideal como punto de partida para configuraciones más avanzadas (pseudo o full distributed). Usa `ubuntu:24.04` como base y Hadoop 3.4.1 por defecto.
 
 ## ¿Qué incluye?
 
