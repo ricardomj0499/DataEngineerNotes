@@ -19,6 +19,7 @@ Este proyecto te permite construir un **clúster Big Data completo** desde cero 
 ## 🚀 Objetivo
 
 > Crear un clúster donde cada componente se instale y configure manualmente dentro de contenedores, permitiendo:
+
 - Aprender a instalar Hadoop y amigos **desde cero**
 - Controlar la red y los puertos entre contenedores
 - Simular un entorno de producción con **SSH y múltiples nodos**
@@ -29,3 +30,6 @@ Este proyecto te permite construir un **clúster Big Data completo** desde cero 
 
 ## 📦 Estructura del proyecto
 
+docker build -t hadoop:master -f ./hadoop/dockerfile_master/Dockerfile ./hadoop/dockerfile_master
+docker run -it --name hadoop_master hadoop:master /bin/bash
+docker rm hadoop_master
