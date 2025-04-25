@@ -34,6 +34,13 @@ RUN wget -q https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hado
     tar -xzf hadoop-${HADOOP_VERSION}.tar.gz --strip-components=1 && \
     rm hadoop-${HADOOP_VERSION}.tar.gz
 
-USER hadoop
 
-CMD ["/bin/bash"]
+USER hadoop
+RUN mkdir -p /home/hadoop/.ssh &&\
+    ssh-keygen -q -t rsa -P '' -f ~/.ssh/id_rsa && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
+    chmod 0600 ~/.ssh/authorized_keys
+
+USER root
+ENTRYPOINT ["/usr/sbin/sshd"]
+CMD ["-D"]

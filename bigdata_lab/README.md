@@ -33,3 +33,15 @@ Este proyecto te permite construir un **clúster Big Data completo** desde cero 
 docker build -t hadoop:master -f ./hadoop/dockerfile_master/Dockerfile ./hadoop/dockerfile_master
 docker run -it --name hadoop_master hadoop:master /bin/bash
 docker rm hadoop_master
+
+--
+
+En el hadoop base solo un stan alone (poder correo los ejemplos de la pagina stan adlone)
+
+despues pseudo distributed (poder accceder a la pagina de hdfs y yarn - subir archivos manuales hdfs y ver las paginas y los servicios)
+
+server con spark instalado (realizar hobs locales y)
+
+spark en el cluster de hadoop para distributed
+
+despues metastore para guardar datos no solo en memoria
