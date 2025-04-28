@@ -82,3 +82,40 @@ Puedes cambiar `HADOOP_VERSION` al momento del build con `--build-arg`.
 - https://downloads.apache.org/hadoop/common
 
 - https://dlcdn.apache.org/hadoop/common
+
+Uno de los objetivos de esto, es dejar un usuario listo con todos los permisos necesarios para poder itener el stana dlone, crear un pseudo distributed apartir de una imagen nueva o desde el propio cmd.
+puede que no sea lo mejor pero es el objetivo
+
+editar
+etc/hadoop/hadoop-env.sh
+
+# set to the root of your Java installation
+
+export JAVA_HOME=/usr/java/latest
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+core site
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://localhost:9000</value>
+</property>
+
+editar hdfs site
+<property>
+<name>dfs.replication</name>
+<value>1</value>
+</property>
+
+    add en cd home
+
+      $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+
+$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+$ chmod 0600 ~/.ssh/authorized_keys
+
+iniciar ssh
+sudo service ssh start
+
+hdfs namenode -format
+
+start-dfs.sh

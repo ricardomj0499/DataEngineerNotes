@@ -16,31 +16,30 @@ RUN apt-get update && \
     openjdk-11-jre-headless \
     wget \
     ssh \
-    pdsh && \
+    pdsh \
+    nano \
+    sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # ---- Prepare Hadoop directories and user ----
 RUN groupadd -r hadoopgrp && \
     useradd -r -m -s /bin/bash -g hadoopgrp hadoop && \
-    mkdir -p ${HADOOP_HOME} && \
-    chown hadoop:hadoopgrp ${HADOOP_HOME} && \
-    chgrp hadoopgrp /opt && chmod 775 /opt
+    usermod -aG sudo hadoop && \
+    echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
+    mkdir -p ${HADOOP_HOME}
 
 WORKDIR ${HADOOP_HOME}
 
 # ---- Download and extract Hadoop ----
 RUN wget -q https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz && \
-    tar -xzf hadoop-${HADOOP_VERSION}.tar.gz --strip-components=1 && \
-    rm hadoop-${HADOOP_VERSION}.tar.gz
+    tar -xzf hadoop-${HADOOP_VERSION}.tar.gz --strip-components=1 --no-same-owner && \
+    rm hadoop-${HADOOP_VERSION}.tar.gz && \
+    chown -R root:hadoopgrp ${HADOOP_HOME} && \
+    chmod -R 775 ${HADOOP_HOME}
 
+EXPOSE 9870
 
 USER hadoop
-RUN mkdir -p /home/hadoop/.ssh &&\
-    ssh-keygen -q -t rsa -P '' -f ~/.ssh/id_rsa && \
-    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
-    chmod 0600 ~/.ssh/authorized_keys
 
-USER root
-ENTRYPOINT ["/usr/sbin/sshd"]
-CMD ["-D"]
+CMD ["/bin/bash"]
