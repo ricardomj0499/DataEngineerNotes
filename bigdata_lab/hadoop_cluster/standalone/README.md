@@ -7,21 +7,21 @@ Esta imagen Docker instala Apache Hadoop en modo **Standalone** (no distribuido,
 - Java 11 (`openjdk-11-jre-headless`)
 - Herramientas esenciales: `wget`, `ssh`, `pdsh`
 - Descarga automática de Hadoop (`$HADOOP_VERSION`)
-- Usuario `hadoop` listo para usar
+- Usuario `hadoop` listo para usar con sudo
 - No modifica los archivos de configuración (`core-site.xml`, `hdfs-site.xml`, etc.)
 
 ## Cómo construir la imagen
 
-Desde el directorio raíz del proyecto(DISTRIBUTED_SERVER):
+Desde el directorio raíz del proyecto(BIGDATA_LAB):
 
 ```bash
-docker build -t hadoop:341 -f ./hadoop/hadoop_base/Dockerfile ./hadoop/hadoop_base
+docker build -t hadoop:341 -f ./hadoop_cluster/standalone/Dockerfile ./hadoop_cluster/standalone
 ```
 
 Para usar otra versión de Hadoop:
 
 ```bash
-docker build --build-arg HADOOP_VERSION=3.4.0 -t hadoop:340 ./hadoop/hadoop_base
+docker build --build-arg HADOOP_VERSION=3.4.0 -t hadoop:340 ./hadoop_cluster/standalone
 ```
 
 ## Ejecutar el contenedor
@@ -50,7 +50,7 @@ DEBIAN_FRONTEND=noninteractive
 HADOOP_VERSION=3.4.1
 HADOOP_HOME=/opt/hadoop
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-PATH=$PATH:/opt/hadoop/bin:/opt/hadoop/sbin
+PATH=$PATH:/opt/hadoop/bin:/opt/hadoop/sbin:$JAVA_HOME/bin
 ```
 
 Puedes cambiar `HADOOP_VERSION` al momento del build con `--build-arg`.
@@ -65,11 +65,6 @@ Puedes cambiar `HADOOP_VERSION` al momento del build con `--build-arg`.
 └── share/hadoop/
 ```
 
-## Notas
-
-- Esta imagen **no tiene configuraciones activas de HDFS ni YARN**.
-- Ideal para pruebas locales o como base para clusters más grandes.
-
 ## Recursos útiles / Otras fuentes de descarga
 
 - https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
@@ -83,39 +78,10 @@ Puedes cambiar `HADOOP_VERSION` al momento del build con `--build-arg`.
 
 - https://dlcdn.apache.org/hadoop/common
 
-Uno de los objetivos de esto, es dejar un usuario listo con todos los permisos necesarios para poder itener el stana dlone, crear un pseudo distributed apartir de una imagen nueva o desde el propio cmd.
-puede que no sea lo mejor pero es el objetivo
+## Notas
 
-editar
-etc/hadoop/hadoop-env.sh
-
-# set to the root of your Java installation
-
-export JAVA_HOME=/usr/java/latest
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-
-core site
-<property>
-<name>fs.defaultFS</name>
-<value>hdfs://localhost:9000</value>
-</property>
-
-editar hdfs site
-<property>
-<name>dfs.replication</name>
-<value>1</value>
-</property>
-
-    add en cd home
-
-      $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-
-$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-$ chmod 0600 ~/.ssh/authorized_keys
-
-iniciar ssh
-sudo service ssh start
-
-hdfs namenode -format
-
-start-dfs.sh
+- Esta imagen **no tiene configuraciones activas de HDFS ni YARN**.
+- Ideal para pruebas locales o como base para clusters más grandes.
+- Hace falta optimizacion en la imagen.
+- Uno de mis objetivos, es partir de esta imagen, lograr tener un pseudo distribuido, lo cual se puede lograr mediante comando, o haciendo otra imagen a partir de esta y dejando listo el pseudo distribuido.
+- Soy conciente de que se podria realizar de mejor manera pero el objetivo era armar un server sencillo y jugar docker.
