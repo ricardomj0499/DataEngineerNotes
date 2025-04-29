@@ -1,16 +1,17 @@
 FROM hadoop:341
 
-USER root
-RUN service ssh restart
-
-COPY etc/hadoop/core_site.xml $HADOOP_HOME/etc/hadoop/
-COPY etc/hadoop/hdfs-site.xml $HADOOP_HOME/etc/hadoop/
+# USER root
+# RUN service ssh restart Does not work in Dockerfile, so we need to use the following command to start sshd
+COPY --chown=root:hadoopgrp etc/hadoop/* $HADOOP_HOME/etc/hadoop/
 
 
 # SSH setup (needed for Hadoop pseudo-distributed mode)
-#RUN ssh-keygen -q -t rsa -P '' -f ~/.ssh/id_rsa -y && \
-#cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
-#chmod 0600 ~/.ssh/authorized_keys
+RUN ssh-keygen -q -t rsa -P '' -f ~/.ssh/id_rsa && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
+    chmod 0600 ~/.ssh/authorized_keys
 
+COPY entrypoint.sh /entrypoint.sh
 
+#USER root
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/bin/bash"]

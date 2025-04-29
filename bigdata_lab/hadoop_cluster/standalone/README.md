@@ -27,7 +27,7 @@ docker build --build-arg HADOOP_VERSION=3.4.0 -t hadoop:340 ./hadoop_cluster/sta
 ## Ejecutar el contenedor
 
 ```bash
-docker run -it --name hadoop_test hadoop:341
+docker run -it -p 9870:9870 --name hadoop_test hadoop:341
 ```
 
 Esto te da una terminal interactiva como el usuario `hadoop`.
