@@ -27,10 +27,34 @@ docker build --build-arg HADOOP_VERSION=3.4.0 -t hadoop:340 ./hadoop_cluster/sta
 ## Ejecutar el contenedor
 
 ```bash
-docker run -it -p 9870:9870 --name hadoop_test hadoop:341
+docker run -it --name hadoop_test hadoop:341
 ```
 
-Esto te da una terminal interactiva como el usuario `hadoop`.
+Esto te da una terminal interactiva como el usuario `hadoop`. Y ya que no tiene servicios corriendo, no tiene sentido iniciarlo en modo detached -d por lo que usamos -it para tener una sesión interactiva.
+
+En caso de cerrar el contenedor y querer volver a ejecutarlo, podemos iniciarlo de alguna de las siguientes maneras. Ya que el docker dan da error ya que el contener ya existe.
+
+```bash
+docker start -ai standalone
+```
+
+start: Inicia un contenedor detenido.
+
+-a: Adjunta la salida (stdout/stderr) del contenedor al terminal.
+
+-i: Permite interactuar con la entrada (stdin), útil si el contenedor es interactivo.
+
+Si solo quieres levantarlo sin interactuar:
+
+```bash
+docker start standalone
+```
+
+Si el contenedor ya está corriendo y quieres entrar a él:
+
+```bash
+docker exec -it standalone bash
+```
 
 ## Prueba rápida (modo local)
 
@@ -41,7 +65,7 @@ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.4.1.jar grep i
 cat output/*
 ```
 
-Este comando corre un job de ejemplo usando archivos de configuración como entrada. Preferiblemente cambiar al home del usuario con `cd` y despues cambiar las rutas agregando `$HADOOP_HOME` al principio de las mismas.
+Este comando corre un job de ejemplo usando archivos de configuración como entrada, nos debe de dar '1       dfsadmin' el último comando . Preferiblemente, cambiar al home del usuario con `cd` y después cambiar las rutas agregando `$HADOOP_HOME` al principio de las mismas.
 
 ## Variables de entorno definidas
 
@@ -82,6 +106,6 @@ Puedes cambiar `HADOOP_VERSION` al momento del build con `--build-arg`.
 
 - Esta imagen **no tiene configuraciones activas de HDFS ni YARN**.
 - Ideal para pruebas locales o como base para clusters más grandes.
-- Hace falta optimizacion en la imagen.
-- Uno de mis objetivos, es partir de esta imagen, lograr tener un pseudo distribuido, lo cual se puede lograr mediante comando, o haciendo otra imagen a partir de esta y dejando listo el pseudo distribuido.
-- Soy conciente de que se podria realizar de mejor manera pero el objetivo era armar un server sencillo y jugar docker.
+- Hace falta optimización en la imagen (por ejemplo, eliminar la carpeta share para eliminar archivos no necesarios).
+- Uno de mis objetivos es, partir de esta imagen, lograr tener un pseudo distribuido, lo cual se puede lograr mediante comando, o haciendo otra imagen a partir de esta y dejando listo el pseudo distribuido (hecho en la carpeta pseudo_distributed).
+- Soy consciente de que se podría realizar de mejor manera, pero el objetivo era armar un server sencillo y jugar con docker.

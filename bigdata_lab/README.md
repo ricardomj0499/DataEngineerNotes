@@ -1,6 +1,6 @@
-# 🐘 Big Data Cluster con Hadoop, HDFS, YARN, Trino, Hive, Delta Lake y Kafka
+# 🐘 Big Data Cluster con Hadoop, HDFS, YARN, Trino, Hive, Delta Lake y Kafka, etc...
 
-Este proyecto te permite construir un **clúster Big Data completo** desde cero usando **Docker**, empezando por Hadoop y expandiéndose progresivamente con otras herramientas como **Trino**, **Hive Metastore**, **Delta Lake** y **Kafka**. Está pensado para aprender profundamente cómo funciona cada componente, incluyendo **configuración manual, autenticación, usuarios y red entre nodos**.
+Este proyecto nace de la idea de crear un **cluster** de Big data con el objetivo de experimentar con **Docker** y simular una ambiente con sus diferentes servidores y tecnlogias. Empezando por Hadoop y expandiéndose progresivamente con otras herramientas como **Trino**, **Hive Metastore**, **Delta Lake** y **Kafka**, entre otras tecnologias que me llamen la atencion conforme avance en la configuracion y la creacion del proyecto. Debido a mi falta de expericiencia con docker y viendo que es una tecnologia muy usada en el ambiente labora, está pensado para aprender profundamente cómo funciona cada componente, incluyendo **configuración manual, autenticación, usuarios y red entre nodos**, ya que tratare de no usar imagenes pre creadas si no hacer todo desde cero. Tengo experiencia en la configuracion de servidores locales/on-premises, asi como las diferentes tecnlogias aca mencionadas, pero debido a la naturaleza de mi actual trabajo y sus politicas no he podido experimentar con el uso de docker.
 
 ---
 
@@ -20,7 +20,7 @@ Este proyecto te permite construir un **clúster Big Data completo** desde cero 
 
 > Crear un clúster donde cada componente se instale y configure manualmente dentro de contenedores, permitiendo:
 
-- Aprender a instalar Hadoop y amigos **desde cero**
+- Aprender a instalar Hadoop **desde cero**
 - Controlar la red y los puertos entre contenedores
 - Simular un entorno de producción con **SSH y múltiples nodos**
 - Conectarte desde una máquina externa (cliente WSL2)
@@ -30,18 +30,21 @@ Este proyecto te permite construir un **clúster Big Data completo** desde cero 
 
 ## 📦 Estructura del proyecto
 
-docker build -t hadoop:master -f ./hadoop/dockerfile_master/Dockerfile ./hadoop/dockerfile_master
-docker run -it --name hadoop_master hadoop:master /bin/bash
-docker rm hadoop_master
-
 --
 
-En el hadoop base solo un stan alone (poder correo los ejemplos de la pagina stan adlone)
+## NOTA
 
-despues pseudo distributed (poder accceder a la pagina de hdfs y yarn - subir archivos manuales hdfs y ver las paginas y los servicios)
+Road Map inicial del proyecto.
 
-server con spark instalado (realizar hobs locales y)
-
-spark en el cluster de hadoop para distributed
-
-despues metastore para guardar datos no solo en memoria
+- Servidor inicial hadoop Standalone(Con usuario listo para crear un pseudo-distribuido ya sea mediante un contenedor inmediado o la creacion de una imagen nueva en base a este)
+- Servidor Hadoop Pseudo Distruido
+- Servidor postgres (posiblemente este si lo use con una imagen lista para el uso) (servira tanto para probar conexion futura de trino como para el hive - metastore)
+- Spark (posiblemente en el ambiente pseudo distribuido de Hadoop)
+- Hive metastore
+- Maquina cliente capaz de lanzar jobs usando spark y usando hadoop como motor de computo y guardado en el hdfs. Pero no realiza procesamiento. (Guardar datos en delta o hudo o iceberg)
+- trino
+- Expandir con el uso de kafka, flink, unity catalog, nessie o alguna otra herramiento interesante que encuentre, puede incluir herramientas de data governance y lineage.
+- En algun punto incluir docker compose, por ahora, trabajo con Build y runs directas.
+- Asi como incluir el uso de volumenes
+- Por ultimo expandir el servidor de hadoop a full distribuido
+- Tema aparte, despues de esto, investigar soluciones en la nube como bdt, databricks, etc, asi como darle una repasada a warehouses, sql analysis services y demas bases de la ingeniera de datos
