@@ -28,19 +28,17 @@ WORKDIR ${METASTORE_HOME}
 
 # ---- Download and extract Hive ----
 RUN wget -q https://dlcdn.apache.org/hive/hive-standalone-metastore-3.0.0/hive-standalone-metastore-3.0.0-bin.tar.gz && \
+    wget https://jdbc.postgresql.org/download/postgresql-42.7.5.jar  && \
     tar -xzf hive-standalone-metastore-3.0.0-bin.tar.gz --strip-components=1 --no-same-owner && \
     rm hive-standalone-metastore-3.0.0-bin.tar.gz && \
+    mv postgresql-42.7.5.jar lib/ && \
     chown -R root:hivegrp ${METASTORE_HOME} && \
     chmod -R 775 ${METASTORE_HOME}
 
-
-
-RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.5.jar  && \
-    mv postgresql-42.7.5.jar ${METASTORE_HOME}/lib/ && \
-    chown -R root:hivegrp ${METASTORE_HOME} && \
-    chmod -R 775 ${METASTORE_HOME}
 
 COPY conf/metastore-site.xml ${METASTORE_HOME}/conf/
+COPY hadoop_conf/core-site.xml ${HADOOP_HOME}/etc/hadoop/
+# RUN schematool -initSchema -dbType postgres
 
 EXPOSE 9083
 
@@ -53,3 +51,5 @@ CMD ["/bin/bash"]
 
 # docker run -it --network hive-net -p 9083:9083 --name hive hive:metastore
 # docker run -it --network hive-net -p 9083:9083 --name hive hive:metastore
+
+# primero hay que tener el contener de hdfs corriendom, si se setea el hdfs en el conf
