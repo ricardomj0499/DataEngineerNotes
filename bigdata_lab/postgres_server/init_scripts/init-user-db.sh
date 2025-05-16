@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Creating Hive user and metastore database..."
 # Create the user and the database
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 	CREATE USER hive WITH PASSWORD 'hive';
