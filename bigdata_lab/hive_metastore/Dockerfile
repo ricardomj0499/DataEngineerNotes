@@ -39,17 +39,19 @@ RUN wget -q https://dlcdn.apache.org/hive/hive-standalone-metastore-3.0.0/hive-s
 COPY conf/metastore-site.xml ${METASTORE_HOME}/conf/
 COPY hadoop_conf/core-site.xml ${HADOOP_HOME}/etc/hadoop/
 # RUN schematool -initSchema -dbType postgres
+COPY entrypoint.sh /entrypoint.sh
+
 
 EXPOSE 9083
 
 USER hive
-
+#USER root
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/bin/bash"]
 # docker build -t hive:metastore .\hive_metastore\
 #
 # schematool -initSchema -dbType postgres --verbose ---- hay que agarrarlo desde aca
 
-# docker run -it --network hive-net -p 9083:9083 --name hive hive:metastore
 # docker run -it --network hive-net -p 9083:9083 --name hive hive:metastore
 
 # primero hay que tener el contener de hdfs corriendom, si se setea el hdfs en el conf
