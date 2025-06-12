@@ -15,7 +15,7 @@ Esta imagen Docker instala Apache Hadoop en modo **Standalone** (no distribuido,
 Desde el directorio raíz del proyecto(BIGDATA_LAB):
 
 ```bash
-docker build -t hadoop:341 -f ./hadoop_cluster/standalone/Dockerfile ./hadoop_cluster/standalone
+docker build -t hadoop:341 ./hadoop_cluster/standalone
 ```
 
 Para usar otra versión de Hadoop:
@@ -27,7 +27,7 @@ docker build --build-arg HADOOP_VERSION=3.4.0 -t hadoop:340 ./hadoop_cluster/sta
 ## Ejecutar el contenedor
 
 ```bash
-docker run -it --name hadoop_test hadoop:341
+docker run -it --name hadoop-test hadoop:341
 ```
 
 Esto te da una terminal interactiva como el usuario `hadoop`. Y ya que no tiene servicios corriendo, no tiene sentido iniciarlo en modo detached -d por lo que usamos -it para tener una sesión interactiva.
@@ -35,7 +35,7 @@ Esto te da una terminal interactiva como el usuario `hadoop`. Y ya que no tiene 
 En caso de cerrar el contenedor y querer volver a ejecutarlo, podemos iniciarlo de alguna de las siguientes maneras. Ya que el docker dan da error ya que el contener ya existe.
 
 ```bash
-docker start -ai standalone
+docker start -ai hadoop-test
 ```
 
 start: Inicia un contenedor detenido.
@@ -47,13 +47,13 @@ start: Inicia un contenedor detenido.
 Si solo quieres levantarlo sin interactuar:
 
 ```bash
-docker start standalone
+docker start hadoop-test
 ```
 
 Si el contenedor ya está corriendo y quieres entrar a él:
 
 ```bash
-docker exec -it standalone bash
+docker exec -it hadoop-test bash
 ```
 
 ## Prueba rápida (modo local)
@@ -65,7 +65,7 @@ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.4.1.jar grep i
 cat output/*
 ```
 
-Este comando corre un job de ejemplo usando archivos de configuración como entrada, nos debe de dar '1       dfsadmin' el último comando . Preferiblemente, cambiar al home del usuario con `cd` y después cambiar las rutas agregando `$HADOOP_HOME` al principio de las mismas.
+Este comando corre un job de ejemplo usando archivos de configuración como entrada, nos debe de dar `1       dfsadmin` el último comando . Preferiblemente, cambiar al home del usuario con `cd` y después cambiar las rutas agregando `$HADOOP_HOME` al principio de las mismas.
 
 ## Variables de entorno definidas
 

@@ -25,6 +25,7 @@ RUN apt-get update && \
 # ---- Prepare Hadoop directories and user ----
 RUN groupadd -r hadoopgrp && \
     useradd -r -m -s /bin/bash -g hadoopgrp hadoop && \
+    echo 'hadoop:hadoop' | chpasswd && \ 
     usermod -aG sudo hadoop && \
     echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p ${HADOOP_HOME}

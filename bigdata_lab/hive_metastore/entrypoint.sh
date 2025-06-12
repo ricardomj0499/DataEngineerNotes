@@ -17,7 +17,7 @@ OUTPUT=$(schematool -dbType "$DB_TYPE" -info 2>&1) || true
 if echo "$OUTPUT" | grep -qi "Metastore schema version"; then
     echo "Hive Metastore ya está inicializado."
     echo "$OUTPUT" | grep "Metastore schema version"
-elif echo "$OUTPUT" | grep -qi "not initialized"; then
+elif echo "$OUTPUT" | grep -qi "Failed to get schema version"; then
     echo "Hive Metastore no está inicializado. Procediendo a inicializar..."
     schematool -initSchema -dbType "$DB_TYPE" 
 else

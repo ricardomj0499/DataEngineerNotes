@@ -1,0 +1,19 @@
+primero hay que encender el cluster de hadoop
+
+worker node 1
+
+worker node 2
+
+master node
+
+postgres hms
+
+hive
+
+anadir hive a la net
+
+trino master 
+
+anadir a la red de hive
+
+trino worker

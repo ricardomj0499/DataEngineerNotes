@@ -12,7 +12,7 @@ This project sets up a **PostgreSQL container** pre-configured to serve as the *
 - Initializes:
 
   - A `metastore` database.
-  - A `hive` user with full privileges on the metastore.
+  - A `hive` user with full privileges on the metastore database.
 
 - Easy to integrate into containerized Big Data environments.
 
@@ -23,7 +23,7 @@ This project sets up a **PostgreSQL container** pre-configured to serve as the *
 ### 1. Create a Docker Volume (to persist data)
 
 ```bash
-docker volume create pgdata_volume
+docker volume create pgdata
 ```
 
 ### 2. Create a Docker Network (for communication with Hive or other services)
@@ -43,13 +43,7 @@ docker build -t postgres:metastore ./postgres_server/
 ### 4. Run the Container
 
 ```bash
-docker run -d \
-  -p 5432:5432 \
-  --network hive-net \
-  --volume pgdata_volume:/var/lib/postgresql/data \
-  --name postgres_hms \
-  -e POSTGRES_PASSWORD=postgres \
-  postgres:metastore
+docker run -d -p 5432:5432 --network hive-net --volume pgdata:/var/lib/postgresql/data --name postgres-hms -e POSTGRES_PASSWORD=postgres postgres:metastore
 ```
 
 ---

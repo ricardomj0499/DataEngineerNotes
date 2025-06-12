@@ -6,7 +6,7 @@ Aca está definido como armarlo manualmente, al final del documento vienen los c
 Crear contenedor mediante:
 
 ```bash
-docker run -it -p 9870:9870 -p 8088:8088 --name pseudo-manual hadoop:341
+docker run -it -p 9870:9870 -p 8088:8088 --name pseudo_manual hadoop:341
 ```
 
 ---
@@ -133,11 +133,11 @@ Acceder a localhost:9870 y localhost:8088
 Esto fueron los pasos para levantar los servicios manualmente, para hacerlo mediante la imagen correr:
 
 ```bash
-docker build -t pseudo:341 .\hadoop_cluster\pseudo_distributed\
+docker build -t pseudo:341 -f .\hadoop_cluster\pseudo_distributed\Dockerfile .\hadoop_cluster\pseudo_distributed\
 ```
 
 ```bash
-docker run -it -p 9870:9870 -p 8088:8088 --name pseudo-distributed pseudo:341
+docker run -it -p 9870:9870 -p 8088:8088 --name pseudo_distributed pseudo:341
 ```
 
 Para levantar el sistema en modo interactivo una vez fue apagado la primera vezÑ

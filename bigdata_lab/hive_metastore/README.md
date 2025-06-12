@@ -48,11 +48,7 @@ docker build -t hive:metastore ./hive_metastore/
 ## ▶️ Ejecución del Contenedor
 
 ```bash
-docker run -d \
-  --network hive-net \
-  -p 9083:9083 \
-  --name hive \
-  hive:metastore
+docker run -d --network hive-net --network hadoop-network -p 9083:9083 --name hive hive:metastore
 ```
 
 > 📌 _Nota:_ Asegúrate de que el contenedor de PostgreSQL esté levantado antes de iniciar este servicio, ya que se conecta a `postgres_hms` en la red `hive-net`.
@@ -65,7 +61,7 @@ El `metastore-site.xml` define los siguientes parámetros de conexión:
 
 ```xml
 <name>javax.jdo.option.ConnectionURL</name>
-<value>jdbc:postgresql://postgres_hms:5432/metastore</value>
+<value>jdbc:postgresql://postgres-hms:5432/metastore</value>
 
 <name>javax.jdo.option.ConnectionUserName</name>
 <value>hive</value>
@@ -94,7 +90,7 @@ El `metastore-site.xml` define los siguientes parámetros de conexión:
 
 ```xml
 <name>fs.defaultFS</name>
-<value>hdfs://pseudo_distributed:9000</value>
+<value>hdfs://pseudo-distributed:9000</value>
 ```
 
 Asegúrate de levantar un contenedor o clúster con HDFS que se registre con ese nombre en la red `hive-net`. Si el contenedor de hdfs esta en otra read, asegurate de incluir a este contenedor en esa red mediante `docker network connect hive-net other_net`

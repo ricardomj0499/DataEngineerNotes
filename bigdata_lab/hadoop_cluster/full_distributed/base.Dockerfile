@@ -1,7 +1,5 @@
 FROM hadoop:341
 
-
-
 COPY --chown=root:hadoopgrp etc/hadoop/* $HADOOP_HOME/etc/hadoop/
 
 # SSH setup (needed for Hadoop pseudo-distributed mode)

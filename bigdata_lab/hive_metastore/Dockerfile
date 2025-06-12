@@ -43,7 +43,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 9083
 
-USER Hive
+USER hive
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/bin/bash"]

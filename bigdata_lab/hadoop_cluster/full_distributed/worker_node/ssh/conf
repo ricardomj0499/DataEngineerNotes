@@ -1,0 +1,3 @@
+Host master-node
+StrictHostKeyChecking no
+UserKnownHostsFile=/dev/null

@@ -33,7 +33,7 @@ likely need to add a number of new values. -->
   </property>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:postgresql://postgres_hms:5432/metastore</value>
+    <value>jdbc:postgresql://postgres-hms:5432/metastore</value>
     <description>
       JDBC connect string for a JDBC metastore.
       To use SSL to encrypt/authenticate the connection, provide database-specific SSL flag in the
