@@ -18,7 +18,7 @@ docker volume create worker-data-1
 docker volume create worker-data-2
 
 docker run -d --cap-add=sys_nice -p 9870:9870 -p 8088:8088 -p 9000:9000 -p 8020:8020 --network hadoop-network --volume master-data:/opt/hdfs_data/data --name master-node master-node:341
-
+8042 nmodde agregapar port
 docker run -d --cap-add=sys_nice --network hadoop-network --volume worker-data-1:/opt/hdfs_data/data --name worker-node-1 worker-node:341
 
 docker run -d --cap-add=sys_nice --network hadoop-network --volume worker-data-2:/opt/hdfs_data/data --name worker-node-2 worker-node:341
