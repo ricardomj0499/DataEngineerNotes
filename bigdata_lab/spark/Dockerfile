@@ -67,10 +67,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 9870
-
-USER spark
+# ---- Prepare Hadoop directories and user ----
+RUN useradd -r -m -s /bin/bash hadoop && \
+    echo 'hadoop:hadoop' | chpasswd && \ 
+    usermod -aG sudo hadoop && \
+    echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER hadoop
 
 CMD ["/bin/bash"]
 # df = spark.read.text('/user/hadoop/test_file_1.csv')
-# pyspark --master yarn
+# pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+
 # 15002. port
