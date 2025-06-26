@@ -38,3 +38,5 @@ metastore
 
 docker build -t hive:metastore ./hive_metastore/
 docker run -d --network hive-net --network hadoop-network -p 9083:9083 --name hive hive:metastore
+
+me hace falta el 8042 de los servidores otros

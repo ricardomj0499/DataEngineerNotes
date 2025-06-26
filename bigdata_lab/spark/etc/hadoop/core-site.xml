@@ -1,4 +1,5 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,18 +14,11 @@
   limitations under the License. See accompanying LICENSE file.
 -->
 
+<!-- Put site-specific property overrides in this file. -->
+
 <configuration>
-
-    <property>
-        <name>yarn.nodemanager.env-whitelist</name>
-        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
-    </property>
-<property>
-  <name>yarn.resourcemanager.address</name>
-  <value>master-node:8032</value>  <!-- ✅ el hostname o IP del contenedor RM -->
-</property>
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://master-node:9000</value>
+  </property>
 </configuration>
-
-
-
-<!-- Site specific YARN configuration properties -->

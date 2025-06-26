@@ -11,6 +11,10 @@ COPY --chown=root:hadoopgrp etc/hadoop/* $HADOOP_HOME/etc/hadoop/
 
 #COPY entrypoint.sh /entrypoint.sh
 
+USER root
+RUN useradd ricardo
+
+USER ricardo
 
 #ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/bin/bash"]
