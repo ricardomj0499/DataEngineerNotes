@@ -155,3 +155,5 @@ Revisar el uso de docker commit para la creacion de imagen con el metodo manual 
 ```bash
 docker commit <nombre_del_contenedor> <nuevo_nombre_de_imagen>
 ```
+
+8088 8042 9864
