@@ -39,8 +39,6 @@ RUN wget -q https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hado
     chown -R root:hadoopgrp ${HADOOP_HOME} && \
     chmod -R 775 ${HADOOP_HOME}
 
-EXPOSE 9870
-
 USER hadoop
 
 CMD ["/bin/bash"]
