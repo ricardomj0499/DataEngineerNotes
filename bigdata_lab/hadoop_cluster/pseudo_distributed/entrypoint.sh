@@ -1,6 +1,10 @@
 #!/bin/bash
+set -e
 set -x
+
+# Activar el servicio SSH
 sudo service ssh start
+
 # Ruta al directorio donde HDFS guarda la metadata del Namenode
 HDFS_NAMENODE_DIR=/tmp/hadoop-hadoop/dfs/name
 
@@ -12,6 +16,7 @@ else
     echo "Namenode ya formateado, saltando formato."
 fi
 
+# inicializar los servicios
 start-dfs.sh
 start-yarn.sh
 

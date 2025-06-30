@@ -1,13 +1,21 @@
-# README - Configuración de Hadoop en Modo Pseudo-Distribuido
+# Configuración de Hadoop en Modo Pseudo-Distribuido
 
 Este documento describe los pasos para configurar un entorno **pseudo-distribuido** de Hadoop a partir de una imagen base.
 Aca está definido como armarlo manualmente, al final del documento vienen los comandos para iniciar un contenedor listo para pseudo distributed.
 
-Crear contenedor mediante:
+En caso de tener la imagen hadoop:341 construida, correr:
 
 ```bash
-docker run -it -p 9870:9870 -p 8088:8088 --name pseudo-manual hadoop:341
+docker run -it -p 9870:9870 -p 8088:8088 -p 9864:9864 -p 8042:8042 --name pseudo-distributed pseudo:341
 ```
+
+O bien:
+
+```bash
+docker compose up -d
+```
+
+Dentro de la carpeta de pseudo-distributed
 
 ---
 
@@ -83,7 +91,7 @@ Agregar la siguiente configuración:
 
 ---
 
-## 4. Configurar SSH
+## 5. Configurar SSH
 
 En la carpeta `/home` del contenedor, generar las llaves SSH:
 
@@ -93,31 +101,14 @@ $ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 $ chmod 0600 ~/.ssh/authorized_keys
 ```
 
-Iniciar el servicio SSH:
-
-```bash
-$ sudo service ssh start
-```
-
 ---
 
-## 5. Inicializar HDFS
+## 6. Inicializar HDFS
 
 Formatear el `namenode`:
 
 ```bash
 $ hdfs namenode -format
-```
-
----
-
-## 6. Iniciar HDFS y YARN
-
-Levantar los servicios de Hadoop:
-
-```bash
-$ start-dfs.sh
-$ start-yarn.sh
 ```
 
 ---
@@ -128,32 +119,26 @@ Acceder a localhost:9870 y localhost:8088
 
 ---
 
-## 9. Creacion mediante docker build
+## 8. Creacion mediante docker build
 
-Esto fueron los pasos para levantar los servicios manualmente, para hacerlo mediante la imagen correr:
+Esto fueron los pasos para levantar los servicios manualmente desde la imagen hadoop:341, para hacerlo mediante una imagen correr:
 
 ```bash
 docker build -t pseudo:341 .\hadoop_cluster\pseudo_distributed\
 ```
 
 ```bash
-docker run -it -p 9870:9870 -p 8088:8088 --name pseudo-distributed pseudo:341
+docker run -it -p 9870:9870 -p 8088:8088 -p 9864:9864 -p 8042:8042 --name pseudo-distributed pseudo:341
 ```
 
-Para levantar el sistema en modo interactivo una vez fue apagado la primera vezÑ
+Para levantar el sistema en modo interactivo una vez fue apagado la primera vez
 
 ```bash
 docker start -ai pseudo
 ```
 
-Aca Hace falta incluir el volumen para persistencia de datos, asi como varias configuraciones especialemten de los directorios de los datos.
+# Notas
 
-## NOTAS
+Acá Hace falta incluir el volumen para persistencia de datos, así como varias configuraciones especialmente de los directorios de los datos. Estas configuraciones no serán agregadas en este momento, ya que serán estudiadas más adelante en el clúster full distribuido. Revisar la documentación o los archivos del full_distributed para saber como configurar los archivos mencionados.
 
-Revisar el uso de docker commit para la creacion de imagen con el metodo manual y lograr persistir los cambios.exi
-
-```bash
-docker commit <nombre_del_contenedor> <nuevo_nombre_de_imagen>
-```
-
-8088 8042 9864
+Si se explora la web, se accede mediante localhost:puerto
