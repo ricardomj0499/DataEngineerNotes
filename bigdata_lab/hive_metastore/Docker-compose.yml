@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+
+  # 🗄️ PostgreSQL for Hive Metastore
+  postgres-hms:
+    image: postgres:metastore
+    container_name: postgres-hms
+    networks:
+      - hive-net
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: metastore
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # 🐝 Hive Metastore
+  hive-metastore:
+    image: hive:metastore
+    container_name: hive
+    networks:
+      - hive-net
+      - hadoop-network
+    ports:
+      - "9083:9083"  # Thrift Metastore API
+    depends_on:
+      - postgres-hms
+    restart: unless-stopped
+
+networks:
+  hive-net:
+    driver: bridge
+  hadoop-network:
+    external: true   # assumes hadoop-network already exists
+
+volumes:
+  pgdata:
+  
