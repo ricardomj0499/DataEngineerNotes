@@ -1,20 +1,24 @@
 #!/bin/bash
-set -x
+set -e
+
+# Iniciar SSH
 sudo service ssh start
-# Ruta al directorio donde HDFS guarda la metadata del Namenode
+
+# Formatear el Namenode si es la primera vez
 HDFS_NAMENODE_DIR=/home/hadoop/hdfs/namenode
 
-# Si no existe la metadata, formatear
 if [ ! -f "$HDFS_NAMENODE_DIR/current/VERSION" ]; then
     echo "Formateando Namenode por primera vez..."
-    hdfs namenode -format -force
+    hdfs namenode -format -force -nonInteractive
 else
     echo "Namenode ya formateado, saltando formato."
 fi
 
-sshpass -p 'hadoop' ssh-copy-id -o StrictHostKeyChecking=no hadoop@worker-node-1 
-sshpass -p 'hadoop' ssh-copy-id -o StrictHostKeyChecking=no hadoop@worker-node-2 
-
+# Iniciar HDFS
 start-dfs.sh
+
+# Iniciar YARN
 start-yarn.sh
+
+# Mantener el contenedor corriendo
 tail -f /dev/null
