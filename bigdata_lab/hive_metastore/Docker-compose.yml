@@ -14,6 +14,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: metastore
+      HIVE_DB_PASSWORD: hive
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
@@ -33,6 +34,7 @@ services:
 
 networks:
   hive-net:
+    name: hive-net
     driver: bridge
   hadoop-network:
     external: true   # assumes hadoop-network already exists

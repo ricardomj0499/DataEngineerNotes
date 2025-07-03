@@ -1,4 +1,3 @@
-version: '3.9'
 
 services:
 
@@ -60,6 +59,7 @@ services:
 # 🔗 Redes
 networks:
   hadoop-network:
+    name: hadoop-network
     driver: bridge
 
 # 💾 Volúmenes persistentes
