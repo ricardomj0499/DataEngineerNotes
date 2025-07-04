@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+
+  # 🧠 Trino Coordinator (Master)
+  trino-master:
+    image: trino-master:476
+    container_name: trino-master
+    networks:
+      - trino-net
+      - hive-net
+    ports:
+      - "8080:8080"  # Trino Web UI / JDBC port
+    restart: unless-stopped
+
+  # 🔧 Trino Worker
+  trino-worker:
+    image: trino-worker:476
+    container_name: trino-worker
+    networks:
+      - trino-net
+    depends_on:
+      - trino-master
+    restart: unless-stopped
+
+networks:
+  trino-net:
+    name: trino-net
+    driver: bridge
+  hive-net:
+    external: true  # Reuse the network created for Hive Metastore
