@@ -21,7 +21,7 @@
     </property>
 <property>
   <name>yarn.resourcemanager.address</name>
-  <value>master-node:8032</value>  <!-- ✅ el hostname o IP del contenedor RM -->
+  <value>master-node</value>  <!-- ✅ el hostname o IP del contenedor RM -->
 </property>
 </configuration>
 

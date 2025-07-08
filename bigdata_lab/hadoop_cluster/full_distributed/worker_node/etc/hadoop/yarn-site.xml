@@ -14,16 +14,63 @@
 -->
 
 <configuration>
+  
   <property>
     <name>yarn.nodemanager.env-whitelist</name>
     <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
   </property>
+  
   <property>
     <name>yarn.resourcemanager.hostname</name>
     <value>master-node</value>
   </property>
+  
+  <property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+    <description>Whether to enable log aggregation. Log aggregation collects
+      each container's logs and moves these logs onto a file-system, for e.g.
+      HDFS, after the application completes. Users can configure the
+      "yarn.nodemanager.remote-app-log-dir" and
+      "yarn.nodemanager.remote-app-log-dir-suffix" properties to determine
+      where these logs are moved to. Users can access the logs via the
+      Application Timeline Server.
+    </description>
+  </property>
+  
+  <property>
+    <name>yarn.nodemanager.remote-app-log-dir</name>
+    <value>/yarn/logs</value>
+    <description>Where to aggregate logs to.</description>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>10240</value>
+    <description>Amount of physical memory, in MB, that can be allocated 
+    for containers. If set to -1 and
+    yarn.nodemanager.resource.detect-hardware-capabilities is true, it is
+    automatically calculated(in case of Windows and Linux).
+    In other cases, the default is 8192MB.
+    </description>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.resource.cpu-vcores</name>
+    <value>5</value>
+    <description>Number of vcores that can be allocated
+    for containers. This is used by the RM scheduler when allocating
+    resources for containers. This is not used to limit the number of
+    CPUs used by YARN containers. If it is set to -1 and
+    yarn.nodemanager.resource.detect-hardware-capabilities is true, it is
+    automatically determined from the hardware in case of Windows and Linux.
+    In other cases, number of vcores is 8 by default.</description>
+  </property>
+
 </configuration>
 
 
 
-<!-- Site specific YARN configuration properties -->
+<!-- Site specific YARN configuration properties 
+yarn.log-aggregation-enable and yarn.nodemanager.remote-app-log-dir 
+will is yet to be tested. Will test when spark cluster is ready -->

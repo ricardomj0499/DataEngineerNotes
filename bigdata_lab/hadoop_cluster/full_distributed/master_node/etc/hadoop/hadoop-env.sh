@@ -434,9 +434,17 @@ export HADOOP_NICENESS=0
 # export HADOOP_REGISTRYDNS_SECURE_EXTRA_OPTS="-jvm server"
 
 
-#
+# OVERWRITE THIS FILE WITH YOUR OWN SETTINGS
 
 
 # Options to pass to SSH when one of the "log into a host and
 # start/stop daemons" scripts is executed
 export HADOOP_SSH_OPTS="-o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15s"
+
+# The maximum amount of heap to use (Java -Xmx).  If no unit
+# is provided, it will be converted to MB.  Daemons will
+# prefer any Xmx setting in their respective _OPT variable.
+# There is no default; the JVM will autoscale based upon machine
+# memory size.
+export HADOOP_HEAPSIZE_MAX= 2048
+# This can be changed on yarn env with YARN_RESOURCEMANAGER_HEAPSIZE and YARN_NODEMANAGER_HEAPSIZE

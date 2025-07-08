@@ -1,0 +1,100 @@
+version: '3.9'
+
+services:
+
+  # 🗄️ Postgres para Hive Metastore
+  postgres_hms:
+    image: postgres:metastore
+    container_name: postgres_hms
+    networks:
+      - hive-net
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  # 🐝 Hive Metastore
+  hive:
+    image: hive:metastore
+    container_name: hive
+    networks:
+      - hive-net
+      - hadoop-network
+    ports:
+      - "9083:9083"
+    depends_on:
+      - postgres_hms
+
+  # 👑 Master Node (NameNode + ResourceManager)
+  master-node:
+    image: master-node:341
+    container_name: master-node
+    hostname: master-node
+    networks:
+      - hadoop-network
+    ports:
+      - "9870:9870"   # NameNode UI
+      - "8088:8088"   # ResourceManager UI
+      - "9000:9000"   # HDFS RPC
+      - "8020:8020"   # HDFS IPC
+      - "22:22"       # SSH (opcional)
+    volumes:
+      - master-data:/opt/hdfs_data/data
+    cap_add:
+      - SYS_NICE
+    depends_on:
+      - worker-node-1
+      - worker-node-2
+    restart: unless-stopped
+
+  # 🚀 Worker 1 (DataNode + NodeManager)
+  worker-node-1:
+    image: worker-node:341
+    container_name: worker-node-1
+    hostname: worker-node-1
+    networks:
+      - hadoop-network
+    ports:
+      - "9864:9864"   # DataNode UI
+      - "9866:9866"   # Block Scanner
+      - "8042:8042"   # NodeManager UI
+      - "22:22"       # SSH (opcional)
+    volumes:
+      - worker-data-1:/opt/hdfs_data/data
+    cap_add:
+      - SYS_NICE
+    restart: unless-stopped
+
+  # 🚀 Worker 2 (DataNode + NodeManager)
+  worker-node-2:
+    image: worker-node:341
+    container_name: worker-node-2
+    hostname: worker-node-2
+    networks:
+      - hadoop-network
+    ports:
+      - "9865:9864"   # DataNode UI
+      - "9867:9866"   # Block Scanner
+      - "8043:8042"   # NodeManager UI
+      - "22:22"       # SSH (opcional)
+    volumes:
+      - worker-data-2:/opt/hdfs_data/data
+    cap_add:
+      - SYS_NICE
+    restart: unless-stopped
+
+# 🔗 Redes
+networks:
+  hadoop-network:
+    driver: bridge
+  hive-net:
+    driver: bridge
+
+# 💾 Volúmenes persistentes
+volumes:
+  master-data:
+  worker-data-1:
+  worker-data-2:
+  pgdata_volume:

@@ -56,8 +56,6 @@ RUN wget -q https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3-c
     chown -R root:sparkgrp ${SPARK_HOME} && \
     chmod -R 775 ${SPARK_HOME}
 
-COPY --chown=root:sparkgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
-COPY --chown=root:sparkgrp conf/* $SPARK_HOME/conf
 
 # ---- Install Java, SSH, wget, pdsh ----
 RUN apt-get update && \
@@ -74,8 +72,11 @@ RUN useradd -r -m -s /bin/bash hadoop && \
     echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER hadoop
 
+COPY --chown=root:sparkgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
+COPY --chown=hadoop:sparkgrp conf/* $SPARK_HOME/conf
+
 CMD ["/bin/bash"]
 # df = spark.read.text('/user/hadoop/test_file_1.csv')
-# pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
-
+# 
+pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 # 15002. port
