@@ -11,10 +11,9 @@ services:
     ports:
       - "9870:9870"   # NameNode UI
       - "8088:8088"   # ResourceManager UI
-      - "9000:9000"   # HDFS RPC
-      - "8020:8020"   # HDFS IPC
+      - "9868:9868"
     volumes:
-      - master-data:/opt/hdfs_data/data
+      - master-data:/opt/hadoop/data
     cap_add:
       - SYS_NICE
     depends_on:
@@ -31,10 +30,10 @@ services:
       - hadoop-network
     ports:
       - "9864:9864"   # DataNode UI
-      - "9866:9866"   # Block Scanner
       - "8042:8042"   # NodeManager UI
+      
     volumes:
-      - worker-data-1:/opt/hdfs_data/data
+      - worker-data-1:/opt/hadoop/data
     cap_add:
       - SYS_NICE
     restart: unless-stopped
@@ -48,10 +47,9 @@ services:
       - hadoop-network
     ports:
       - "9865:9864"   # DataNode UI
-      - "9867:9866"   # Block Scanner
       - "8043:8042"   # NodeManager UI
     volumes:
-      - worker-data-2:/opt/hdfs_data/data
+      - worker-data-2:/opt/hadoop/data
     cap_add:
       - SYS_NICE
     restart: unless-stopped
@@ -67,3 +65,14 @@ volumes:
   master-data:
   worker-data-1:
   worker-data-2:
+
+# Still need to add the following lines to the master-node Dockerfile:
+# - conf_volume(path):/opt/hadoop/etc/hadoop Map config files to a volume
+# /opt/hadoop/logs Esta carpeta no esta mapeada a un volumen, por lo que los logs se perderán al reiniciar el contenedor.
+
+# secondary namenode
+# Checkpoint Image URI
+# file:///tmp/hadoop-hadoop/dfs/namesecondary
+# Checkpoint Editlog URI
+# file:///tmp/hadoop-hadoop/dfs/namesecondary
+# Investigate the secondary namenode URI

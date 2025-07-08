@@ -5,7 +5,7 @@ set -e
 sudo service ssh start
 
 # Formatear el Namenode si es la primera vez
-HDFS_NAMENODE_DIR=/home/hadoop/hdfs/namenode
+HDFS_NAMENODE_DIR=/opt/hadoop/data
 
 if [ ! -f "$HDFS_NAMENODE_DIR/current/VERSION" ]; then
     echo "Formateando Namenode por primera vez..."

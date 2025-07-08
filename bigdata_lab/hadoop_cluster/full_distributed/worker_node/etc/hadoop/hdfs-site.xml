@@ -23,7 +23,7 @@
   </property>
   <property>
     <name>dfs.datanode.data.dir</name>
-    <value>file:///home/hadoop/hdfs/datanode</value>
+    <value>file:///opt/hadoop/data</value>
   </property>
   <property>
     <name>dfs.namenode.rpc-address</name>
@@ -35,4 +35,11 @@
       The value of this property will take the form of nn-host1:rpc-port. The NameNode's default RPC port is 8020.
     </description>
   </property>
+    <property>
+  <name>dfs.permissions.superusergroup</name>
+  <value>hadoopgrp</value>
+  <description>The name of the group of super-users.
+    The value should be a single group name.
+  </description>
+</property>
 </configuration>

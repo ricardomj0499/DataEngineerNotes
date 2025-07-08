@@ -432,3 +432,11 @@ export HADOOP_NICENESS=0
 # By default, Hadoop uses jsvc which needs to know to launch a
 # server jvm.
 # export HADOOP_REGISTRYDNS_SECURE_EXTRA_OPTS="-jvm server"
+
+
+#
+
+
+# Options to pass to SSH when one of the "log into a host and
+# start/stop daemons" scripts is executed
+export HADOOP_SSH_OPTS="-o BatchMode=yes -o StrictHostKeyChecking=no -o ConnectTimeout=15s"

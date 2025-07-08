@@ -22,6 +22,7 @@
     <property>
         <name>yarn.resourcemanager.hostname</name>
         <value>master-node</value>
+        <description>The hostname of the RM.</description>
     </property>
 </configuration>
 

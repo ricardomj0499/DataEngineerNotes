@@ -9,8 +9,8 @@ RUN sudo apt-get update && \
 
 RUN sudo service ssh start && \
     sudo ssh-keygen -A && \
-    mkdir -p /home/hadoop/hdfs/datanode && \
-    chown -R hadoop:hadoopgrp /home/hadoop/hdfs/
+    mkdir -p /opt/hadoop/data && \
+    chown -R hadoop:hadoopgrp /opt/hadoop/data
 
 COPY --chown=hadoop:hadoopgrp etc/hadoop/* $HADOOP_HOME/etc/hadoop/
 
