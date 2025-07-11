@@ -40,7 +40,7 @@ Este proyecto contiene una imagen Docker personalizada para levantar un **Hive S
 ## 🧱 Build de la Imagen
 
 ```bash
-docker build -t hive:metastore ./hive_metastore/
+docker build -t hive:metastore ./hive_metastore/hive_server/
 ```
 
 ---

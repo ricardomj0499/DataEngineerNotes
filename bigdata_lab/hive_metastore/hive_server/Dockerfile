@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 # ---- Prepare Hive directories and user ----
 RUN groupadd -r hivegrp && \
-    useradd -r -m -s /bin/bash -g hivegrp hive && \
+    useradd -r -m -s /bin/bash -g hadoopgrp hive && \
     usermod -aG sudo hive && \
     echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
     mkdir -p ${METASTORE_HOME}
