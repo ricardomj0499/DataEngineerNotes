@@ -32,7 +32,7 @@ RUN wget -q https://dlcdn.apache.org/hive/hive-standalone-metastore-3.0.0/hive-s
     tar -xzf hive-standalone-metastore-3.0.0-bin.tar.gz --strip-components=1 --no-same-owner && \
     rm hive-standalone-metastore-3.0.0-bin.tar.gz && \
     mv postgresql-42.7.5.jar lib/ && \
-    chown -R root:hivegrp ${METASTORE_HOME} && \
+    chown -R root:hadoopgrp ${METASTORE_HOME} && \
     chmod -R 775 ${METASTORE_HOME}
 
 
