@@ -1,0 +1,37 @@
+
+services:
+
+  # 👑 Master Node (NameNode + ResourceManager)
+  spark-master:
+    image: spark-master:4.0.0
+    container_name: spark-master
+    hostname: spark-master
+    networks:
+      - spark-network
+      - hadoop-network
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+
+  # 🚀 Worker 1 (DataNode + NodeManager)
+  spark-worker:
+    image: spark-worker:4.0.0
+    container_name: spark-worker
+    hostname: spark-worker
+    networks:
+      - spark-network
+    ports:
+      - "8082:8081"
+    depends_on:
+      - spark-master
+    restart: unless-stopped
+
+# 🔗 Redes
+networks:
+  spark-network:
+    name: spark-network
+    driver: bridge
+  hadoop-network:
+    external: true
+
+
