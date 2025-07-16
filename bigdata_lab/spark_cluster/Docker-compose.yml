@@ -11,6 +11,7 @@ services:
       - hadoop-network
     ports:
       - "8081:8080"
+      - "4040:4040"
     restart: unless-stopped
 
   # 🚀 Worker 1 (DataNode + NodeManager)
