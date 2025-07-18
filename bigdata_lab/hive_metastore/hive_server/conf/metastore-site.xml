@@ -81,10 +81,4 @@ likely need to add a number of new values. -->
     <description>location of default database for the warehouse</description>
   </property>
 
-  <property>
-    <name>metastore.catalog.default</name>
-    <value>hive_hms_catalog</value>
-    <description>The default catalog to use when a catalog is not specified.  Default is 'hive' (the default catalog).</description>
-  </property>
-
 </configuration>

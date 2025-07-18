@@ -1,0 +1,23 @@
+--webui-port PORT	Port for web UI (default: 8080 for master, 8081 for worker)
+
+-m MEM, --memory MEM	Total amount of memory to allow Spark applications to use on the machine, in a format like 1000M or 2G (default: your machine's total RAM minus 1 GiB); only on worker
+
+-d DIR, --work-dir DIR
+
+conf/spark-env.sh.
+
+SPARK_LOG_DIR	Where log files are stored. (default: SPARK_HOME/logs).
+
+SPARK_WORKER_MEMORY	Total amount of memory to allow Spark applications to use on the machine, e.g. 1000m, 2g (default: total memory minus 1 GiB); note that each application's individual memory is configured using its spark.executor.memory property.
+
+SPARK_WORKER_WEBUI_PORT	Port for the worker web UI (default: 8081).
+
+SPARK_WORKER_OPTS	Configuration properties that apply only to the worker in the form "-Dx=y" (default: none). See below for a list of possible options.
+
+SPARK_DAEMON_MEMORY	Memory to allocate to the Spark master and worker daemons themselves (default: 1g).
+
+SPARK_DAEMON_JAVA_OPTS	JVM options for the Spark master and worker daemons themselves in the form "-Dx=y" (default: none).
+
+spark.worker.cleanup.enabled	true	Enable periodic cleanup of worker / application directories. Note that this only affects standalone mode, as YARN works differently. Only the directories of stopped applications are cleaned up. This should be enabled if spark.shuffle.service.db.enabled is "true"
+
+spark.shuffle.service.db.enabled	true	Store External Shuffle service state on local disk so that when the external shuffle service is restarted, it will automatically reload info on current executors. This only affects standalone mode (yarn always has this behavior enabled). You should also enable spark.worker.cleanup.enabled, to ensure that the state eventually gets cleaned up. This config may be removed in the future.

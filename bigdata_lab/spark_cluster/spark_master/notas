@@ -1,0 +1,24 @@
+--webui-port PORT	Port for web UI (default: 8080 for master, 8081 for worker)
+
+conf/spark-env.sh.
+
+SPARK_MASTER_WEBUI_PORT	Port for the master web UI (default: 8080).
+
+Configuration properties that apply only to the master in the form "-Dx=y" (default: none). See below for a list of possible options.
+
+SPARK_LOG_DIR	Where log files are stored. (default: SPARK_HOME/logs).
+
+SPARK_WORKER_MEMORY	Total amount of memory to allow Spark applications to use on the machine, e.g. 1000m, 2g (default: total memory minus 1 GiB); note that each application's individual memory is configured using its spark.executor.memory property.
+
+SPARK_DAEMON_MEMORY	Memory to allocate to the Spark master and worker daemons themselves (default: 1g).
+
+SPARK_DAEMON_JAVA_OPTS	JVM options for the Spark master and worker daemons themselves in the form "-Dx=y" (default: none).
+
+SPARK_MASTER_OPTS supports the following system properties:
+
+spark.master.ui.port	8080	Specifies the port number of the Master Web UI endpoint.
+
+spark.master.ui.historyServerUrl	(None)	The URL where Spark history server is running. Please note that this assumes that all Spark jobs share the same event log location where the history server accesses.
+
+spark.master.useAppNameAsAppId.enabled	false	(Experimental) If true, Spark master uses the user-provided appName for appId.
+

@@ -9,6 +9,7 @@ services:
     networks:
       - trino-net
       - hive-net
+      - hadoop-network
     ports:
       - "8080:8080"  # Trino Web UI / JDBC port
     restart: unless-stopped
@@ -28,4 +29,6 @@ networks:
     name: trino-net
     driver: bridge
   hive-net:
-    external: true  # Reuse the network created for Hive Metastore
+    external: true # Reuse the network created for Hive Metastore
+  hadoop-network:
+    external: true  # Reuse the network created for Hadoop

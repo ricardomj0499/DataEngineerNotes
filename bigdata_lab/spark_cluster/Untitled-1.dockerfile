@@ -11,13 +11,17 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     openjdk-21-jre-headless \
     wget \
+    ssh \
+    pdsh \
+    nano \
     sudo && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # ---- Prepare Spark directories and user ----
-RUN groupadd -r hadoopgrp && \
-    useradd -r -m -s /bin/bash -g hadoopgrp spark && \
+RUN groupadd -r sparkgrp && \
+    groupadd -r hadoopgrp && \
+    useradd -r -m -s /bin/bash -g sparkgrp -G sparkgrp spark && \
     echo 'spark:spark' | chpasswd && \ 
     usermod -aG sudo spark && \
     echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && \
@@ -32,30 +36,14 @@ RUN wget -q https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.t
     chown -R spark:hadoopgrp ${SPARK_HOME} && \
     chmod -R 775 ${SPARK_HOME}
 
-# ---- Install Java, SSH, wget, pdsh ----
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ssh \
-    pdsh \
-    sudo && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+EXPOSE 9870
 
 USER spark
-
-COPY --chown=spark:hadoopgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
-COPY --chown=spark:hadoopgrp conf/* $SPARK_HOME/conf
-
-# Copiar el entrypoint
-COPY entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
-
-#COPY --chown=hadoop:sparkgrp conf/* $SPARK_HOME/conf
 
 #COPY --chown=spark:hadoopgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
 #COPY --chown=hadoop:sparkgrp conf/* $SPARK_HOME/conf
 
+CMD ["/bin/bash"]
 # df = spark.read.text('/user/hadoop/test_file_1.csv')
 # 
 # pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
