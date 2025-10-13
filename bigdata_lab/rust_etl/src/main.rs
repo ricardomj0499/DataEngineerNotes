@@ -1,4 +1,4 @@
-mod process;
+mod processors;
 mod schemas;
 mod utils;
 use std::env;
@@ -12,7 +12,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     println!("Processing files: {:?}", &args);
     for file_path in &args {
-        process::process_file(file_path)?;
+        let (preamble, data_lines) = processors::process_file(file_path)?;
+        utils::write_files::write_combined_csv(
+            &preamble,
+            &data_lines,
+            file_path.to_string() + "_processed_preamble.csv",
+            file_path.to_string() + "_processed_data.csv",
+        )?;
     }
 
     Ok(())

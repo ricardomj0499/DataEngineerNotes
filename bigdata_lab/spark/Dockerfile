@@ -50,9 +50,9 @@ RUN python -m pip install --no-cache-dir --break-system-packages \
     pyspark
 
 # ---- Download and extract Spark ----
-RUN wget -q https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3-connect.tgz && \
-    tar -xzf spark-4.0.0-bin-hadoop3-connect.tgz --strip-components=1 --no-same-owner && \
-    rm spark-4.0.0-bin-hadoop3-connect.tgz && \
+RUN wget -q https://dlcdn.apache.org/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.tgz && \
+    tar -xzf spark-4.0.0-bin-hadoop3.tgz --strip-components=1 --no-same-owner && \
+    rm spark-4.0.0-bin-hadoop3.tgz && \
     chown -R root:sparkgrp ${SPARK_HOME} && \
     chmod -R 775 ${SPARK_HOME}
 
@@ -66,17 +66,22 @@ RUN apt-get update && \
 
 EXPOSE 9870
 # ---- Prepare Hadoop directories and user ----
-RUN useradd -r -m -s /bin/bash hadoop && \
-    echo 'hadoop:hadoop' | chpasswd && \ 
-    usermod -aG sudo hadoop && \
+RUN groupadd -r hadoopgrp && \
+    usermod -aG hadoopgrp spark && \
     echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-USER hadoop
+USER spark
 
-COPY --chown=root:sparkgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
+COPY --chown=spark:hadoopgrp etc/hadoop/* $SPARK_HOME/etc/hadoop/
 COPY --chown=hadoop:sparkgrp conf/* $SPARK_HOME/conf
 
 CMD ["/bin/bash"]
 # df = spark.read.text('/user/hadoop/test_file_1.csv')
 # 
-pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+# pyspark --master yarn --conf spark.yarn.appMasterEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.executorEnv.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 --conf spark.yarn.am.env.JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 # 15002. port
+
+#textFile.select(sf.size(sf.split(textFile.value, "\s+")).name("numWords")).agg(sf.max(sf.col("numWords"))).collect()
+
+#wordCounts = textFile.select(sf.explode(sf.split(textFile.value, "\s+")).alias("word")).groupBy("word").count()
+
+#spark-submit --master "local[4]" SimpleApp.py

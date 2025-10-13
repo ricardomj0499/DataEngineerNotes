@@ -1,12 +1,15 @@
 use std::fs::{File, metadata};
-use std::io;
+use std::io::{self};
 
 pub fn read_file(path: &str) -> io::Result<File> {
     if !file_exists(path) {
-        println!("File does not exist: {}", path);
+        // TODO: User a better error handling strategy
+        println!(
+            "File does not exist or you don't have permission to access it: {}",
+            path
+        );
         return Err(io::Error::new(io::ErrorKind::NotFound, "File not found"));
     }
-
     File::open(path)
 }
 

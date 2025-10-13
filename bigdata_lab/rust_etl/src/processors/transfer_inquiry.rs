@@ -4,7 +4,7 @@ use std::error::Error;
 use std::io::BufRead;
 use std::io::BufReader;
 
-pub fn process_file(path: &str) -> Result<(), Box<dyn Error>> {
+pub fn process_transfer_inquiry(path: &str) -> Result<(Vec<String>, Vec<String>), Box<dyn Error>> {
     println!("\nProcessing file: {}", path);
 
     let file = read_files::read_file(path)?;
@@ -42,5 +42,5 @@ pub fn process_file(path: &str) -> Result<(), Box<dyn Error>> {
         println!("{:?}", row);
     }
 
-    Ok(())
+    Ok((preamble, data_lines))
 }
