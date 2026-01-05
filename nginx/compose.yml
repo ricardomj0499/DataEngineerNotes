@@ -1,0 +1,13 @@
+name: nginx-test
+
+services:
+  nginx-server:
+    image: nginx:latest
+    container_name: nginx-test
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./data/www:/data/www:ro
+      - ./data/images:/data/images:ro
+    restart: unless-stopped
